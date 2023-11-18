@@ -1,0 +1,54 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+@* @foreach (var item in array1)
+{
+    <p>@item</p>
+} *@
+
+@* @code {
+    string string1 { get; set; } = "나의 첫번째 앱";
+    int int1 { get; set; } = 19999;
+    string[] array1 = new string[] { "apple", "banana", "melon" };
+    // Blazor 에서는 일반 배열 보다는 리스트를 만들어 쓰고 출력하는 방법을 권장합니다.
+    // List List<> = new List <>(); 에 대해서는 추후 안내해드리겠습니다.
+    protected override void OnInitialized()
+    {
+        int1++;
+        base.OnInitialized();
+    }
+    // 변수 선언 시 {get; set; } 을 붙여야 한다는 점과 선언 이외의 작업은 Oninitialized 안에서 진행하기!
+} *@
+
+@* 컴포넌트 기능!
+<Counter></Counter> *@
+
+<h1>헬로 월드~!</h1>
+
+@* 바인드 개념. 리액트의 특정 부분만 재렌더하는 방식이랑 비슷함.*@
+<input type="text" @bind="BindString" />
+
+<p>@BindString</p>
+
+@code {
+    private string BindString { get; set; } = "변경 전";
+}
+
+@* 온클릭 개념 *@
+
+<button type="button" @onclick="ClickEvent">값 증가</button>
+
+<p>@TestInt</p>
+
+<p>하이요!</p>
+
+@code {
+    private int TestInt { get; set; } = 0;
+
+    public void ClickEvent()
+    {
+        TestInt+= 2;
+    }
+}
+@* 핫리로드 기능 *@
