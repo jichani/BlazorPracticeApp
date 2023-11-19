@@ -24,20 +24,20 @@
 @* 컴포넌트 기능!
 <Counter></Counter> *@
 
-<h1>헬로 월드~!</h1>
+@* <h1>헬로 월드~!</h1> *@
 
 @* 바인드 개념. 리액트의 특정 부분만 재렌더하는 방식이랑 비슷함.*@
-<input type="text" @bind="BindString" />
+@* <input type="text" @bind="BindString" />
 
 <p>@BindString</p>
 
 @code {
     private string BindString { get; set; } = "변경 전";
-}
+} *@
 
 @* 온클릭 개념 *@
 
-<button type="button" @onclick="ClickEvent">값 증가</button>
+@* <button type="button" @onclick="ClickEvent">값 증가</button>
 
 <p>@TestInt</p>
 
@@ -50,5 +50,66 @@
     {
         TestInt+= 2;
     }
-}
+} *@
+
 @* 핫리로드 기능 *@
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">순서</th>
+            <th scope="col">제품명</th>
+            <th scope="col">가격</th>
+            <th scope="col">카테고리</th>
+            <th scope="col">주문일자</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in orders)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <th scope="row">@item.Name</th>
+                <th scope="row">@item.Category</th>
+                <th scope="row">@item.Price</th>
+                <th scope="row">@item.OrderDate</th>
+
+            </tr>
+         }
+    </tbody>
+</table>
+
+@code {
+    // List<OrderModel> orders = new List<OrderModel>();
+
+    // protected override void OnInitialized()
+    // {
+    // @code 내에서 함수를 불러오는 방법 1
+    // OrderController orderController = new OrderController();
+    // 컨트롤러에서 리스트 값을 받아서 불러옵니다. 1
+    // orders = orderController.orderModels();
+
+    // @code 내에서 함수를 불러오는 방법 2
+    // orders = orderController.orderModels();
+    // base.OnInitialized();
+    // }
+}
+
+    @* 함수를 사용하는 두번째 방법 inject 종속성 주입 2 *@
+    @* @inject OrderController orderController *@
+
+    @* Task *@
+
+    @inject OrderController OC;
+
+    @code {
+        List<OrderModel> orders = new List<OrderModel>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            // 마지막 Task 순서를 지키면서 데이터 불러오기
+        orders = await OC.orderModelsAsync();
+        base.OnInitialized();
+        }
+    }
